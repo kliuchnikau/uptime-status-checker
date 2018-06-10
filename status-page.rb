@@ -36,6 +36,9 @@ class StatusPageCLI < Thor
 
   desc "history", "Display all the data which was gathered by the tool."
   def history
+    DataStore.new.load_each do |status|
+      puts status
+    end
   end
 
   desc "backup PATH", "Takes a path variable, and creates a backup \

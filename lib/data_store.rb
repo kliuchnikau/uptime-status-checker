@@ -1,4 +1,5 @@
 require 'csv'
+require 'time'
 
 class DataStore
 
@@ -24,7 +25,7 @@ class DataStore
   private
 
   def default_data_store_path
-    File.expand_path('store.dat', File.dirname(__FILE__))
+    File.expand_path('../store.dat', File.dirname(__FILE__))
   end
 
 end
