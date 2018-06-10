@@ -1,4 +1,3 @@
-# TODO: extract shared_example_for "status checker" and share it with github
 describe StatusSource::StatuspageIo do
 
   FakeResponse = Struct.new(:code, :body)
