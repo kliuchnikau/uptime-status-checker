@@ -5,6 +5,12 @@ require_relative "lib/lib"
 
 class StatusPageCLI < Thor
 
+  ALL_NET_HTTP_ERRORS = [
+    Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+    Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError,
+    SocketError, StatusSource::RemoteError
+  ]
+
   desc "pull", "Pull all the status page data from different \
                 providers and save into the data store."
   def pull
@@ -15,9 +21,14 @@ class StatusPageCLI < Thor
       StatusSource::Rubygems,
       StatusSource::Cloudflare
     ].each do |status_source|
-      status = status_source.new().current_status
-      data_store.save(status)
-      puts status
+      begin
+        status = status_source.new().current_status
+        data_store.save(status)
+        puts status
+      rescue *ALL_NET_HTTP_ERRORS
+        # We do not want to fail all requests because one of them is down/misconfigured
+        puts "Error: Cannot read status"
+      end
     end
   end
 
