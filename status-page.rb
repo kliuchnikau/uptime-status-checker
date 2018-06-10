@@ -19,6 +19,9 @@ class StatusPageCLI < Thor
   def live
   end
 
+  desc "history", "Display all the data which was gathered by the tool."
+  def history
+  end
 
 end
 
