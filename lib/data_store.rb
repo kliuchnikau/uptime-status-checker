@@ -12,7 +12,13 @@ class DataStore
     end
   end
 
-  def load_each()
+  def load_each(&block)
+    return unless File.exist?(@filepath)
+
+    CSV.foreach(@filepath, col_sep: ';',  headers: false) do |row|
+      loaded_status = ServiceStatus.new(row[0], row[1], Time.parse(row[2]))
+      block[loaded_status]
+    end
   end
 
   private

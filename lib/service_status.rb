@@ -1,9 +1,9 @@
 class ServiceStatus
 
-  def initialize(service_name, status_text)
+  def initialize(service_name, status_text, time = Time.now.utc)
     @service_name = service_name
     @status = status_text
-    @time = Time.now.utc
+    @time = time
   end
 
   attr_reader :service_name, :status, :time

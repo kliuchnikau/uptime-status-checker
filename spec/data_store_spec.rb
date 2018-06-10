@@ -50,11 +50,11 @@ describe DataStore do
     end
 
     it "correctly reads service status" do
-      expect(all_statuses[l].status).to eq "good"
+      expect(all_statuses[1].status).to eq "good"
     end
 
     it "correctly reads time" do
-      expect(all_statuses[l].time).to eq Time.utc(2018, 1, 1, 0, 0, 2)
+      expect(all_statuses[1].time).to eq Time.utc(2018, 1, 1, 0, 0, 2)
     end
   end
 
