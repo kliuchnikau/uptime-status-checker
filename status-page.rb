@@ -14,6 +14,12 @@ class StatusPageCLI < Thor
     puts StatusSource::Cloudflare.new().current_status
   end
 
+  desc "live", "Constantly query the URLs and output the status \
+                periodically on the console and save it to the data store."
+  def live
+  end
+
+
 end
 
 StatusPageCLI.start(ARGV)
