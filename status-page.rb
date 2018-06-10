@@ -8,10 +8,17 @@ class StatusPageCLI < Thor
   desc "pull", "Pull all the status page data from different \
                 providers and save into the data store."
   def pull
-    puts StatusSource::Github.new().current_status
-    puts StatusSource::Bitbucket.new().current_status
-    puts StatusSource::Rubygems.new().current_status
-    puts StatusSource::Cloudflare.new().current_status
+    data_store = DataStore.new
+    [
+      StatusSource::Github,
+      StatusSource::Bitbucket,
+      StatusSource::Rubygems,
+      StatusSource::Cloudflare
+    ].each do |status_source|
+      status = status_source.new().current_status
+      data_store.save(status)
+      puts status
+    end
   end
 
   desc "live", "Constantly (every 10 seconds) query the URLs and output the status \
