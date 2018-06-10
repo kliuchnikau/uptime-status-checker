@@ -2,10 +2,10 @@ require 'timecop'
 
 describe StatusSource::Github do
 
-  FakeResponse = Struct.new(:body)
+  FakeResponse = Struct.new(:code, :body)
 
   let(:http_client) do
-    double(get_response: FakeResponse.new(File.read(response_filepath)))
+    double(get_response: FakeResponse.new(response_code, File.read(response_filepath)))
   end
 
   subject do
@@ -16,6 +16,7 @@ describe StatusSource::Github do
     let(:response_filepath) do
       File.expand_path('../fixtures/github/success.txt', File.dirname(__FILE__))
     end
+    let(:response_code) { 200 }
 
     it "returns status received from github" do
       expect(subject.status).to eq "good"
@@ -29,6 +30,17 @@ describe StatusSource::Github do
 
     it "returns the proper service name" do
       expect(subject.service_name).to eq "Github"
+    end
+  end
+
+  context "when github does not serve the response" do
+    let(:response_code) { 503 }
+    let(:response_filepath) do
+      File.expand_path('../fixtures/github/empty.txt', File.dirname(__FILE__))
+    end
+
+    it "raise a remote error" do
+      expect { subject }.to raise_error StatusSource::RemoteError
     end
   end
 

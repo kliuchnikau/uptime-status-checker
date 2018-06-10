@@ -13,9 +13,16 @@ module StatusSource
 
     def current_status
       response = @http_client.get_response(URI(API_URL))
-      github_status = JSON.parse(response.body)
+      raise RemoteError unless success?(response)
 
+      github_status = JSON.parse(response.body)
       ServiceStatus.new(SERVICE_NAME, github_status["status"])
+    end
+
+    private
+
+    def success?(response)
+      response.code.to_i == 200
     end
 
   end
