@@ -23,6 +23,16 @@ class StatusPageCLI < Thor
   def history
   end
 
+  desc "backup PATH", "Takes a path variable, and creates a backup \
+                       of historic and currently saved data."
+  def backup(path)
+  end
+
+  desc "restore PATH", "Takes a path variable which is a backup \
+                        created by the application and restores that data."
+  def restore(path)
+  end
+
 end
 
 StatusPageCLI.start(ARGV)
