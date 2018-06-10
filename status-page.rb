@@ -2,6 +2,7 @@
 
 require 'thor'
 require_relative "lib/lib"
+require 'fileutils'
 
 class StatusPageCLI < Thor
 
@@ -44,11 +45,29 @@ class StatusPageCLI < Thor
   desc "backup PATH", "Takes a path variable, and creates a backup \
                        of historic and currently saved data."
   def backup(path)
+    if File.exist?(path)
+      puts "File with this path already exists. Please choose another path."
+      return
+    end
+
+    # recursively create a directory for the file
+    dirname = File.dirname(path)
+    unless File.directory?(dirname)
+      FileUtils.mkdir_p(dirname)
+    end
+
+    Backup.store(path)
   end
 
   desc "restore PATH", "Takes a path variable which is a backup \
                         created by the application and restores that data."
   def restore(path)
+    unless File.exist?(path)
+      puts "Backup file with this path does not exists. Please specify the correct path."
+      return
+    end
+
+    Backup.restore(path)
   end
 
 end
