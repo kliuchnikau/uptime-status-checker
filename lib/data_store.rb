@@ -3,7 +3,9 @@ require 'time'
 
 class DataStore
 
-  def initialize(filepath = default_data_store_path)
+  DEFAULT_PATH = File.expand_path('../store.dat', File.dirname(__FILE__)).freeze
+
+  def initialize(filepath = DEFAULT_PATH)
     @filepath = filepath
   end
 
@@ -20,12 +22,6 @@ class DataStore
       loaded_status = ServiceStatus.new(row[0], row[1], Time.parse(row[2]))
       block[loaded_status]
     end
-  end
-
-  private
-
-  def default_data_store_path
-    File.expand_path('../store.dat', File.dirname(__FILE__))
   end
 
 end

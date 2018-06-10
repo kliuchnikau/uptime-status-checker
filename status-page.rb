@@ -2,7 +2,6 @@
 
 require 'thor'
 require_relative "lib/lib"
-require 'fileutils'
 
 class StatusPageCLI < Thor
 
@@ -56,7 +55,7 @@ class StatusPageCLI < Thor
       FileUtils.mkdir_p(dirname)
     end
 
-    Backup.store(path)
+    Backup.new.store(path)
   end
 
   desc "restore PATH", "Takes a path variable which is a backup \
@@ -67,7 +66,7 @@ class StatusPageCLI < Thor
       return
     end
 
-    Backup.restore(path)
+    Backup.new.restore(path)
   end
 
 end

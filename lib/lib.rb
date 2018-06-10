@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'fileutils'
 
 require_relative "service_status"
 require_relative "data_store"
