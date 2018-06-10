@@ -100,4 +100,5 @@ RSpec.configure do |config|
 end
 
 require 'timecop'
+require 'byebug'
 require_relative "../lib/lib"

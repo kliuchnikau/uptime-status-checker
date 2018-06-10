@@ -1,10 +1,10 @@
 describe DataStore do
 
   let(:datastore_file) do
-    File.expand_path('../fixtures/datastore.dat', File.dirname(__FILE__))
+    File.expand_path('fixtures/datastore.dat', File.dirname(__FILE__))
   end
 
-  let(:datastore_content) { File.read(datastore_file) }
+  let(:datastore_content) { File.read(datastore_file).strip }
 
   after do
     File.delete(datastore_file) if File.exist?(datastore_file)
@@ -15,13 +15,13 @@ describe DataStore do
   describe "#save" do
 
     it "stores service status as a CSV line" do
-      Timecop.freeze(Time.local(2018, 1, 1, 0, 0, 0))
-
-      status = ServiceStatus.new('Github', 'good')
-      subject.save(status)
+      Timecop.freeze(Time.utc(2018, 1, 1, 0, 0, 0)) do
+        status = ServiceStatus.new('Github', 'good')
+        subject.save(status)
+      end
 
       expect(datastore_content).to eq(
-        "Github;good;2018-1-1:00:00:00"
+        "Github;good;2018-01-01 00:00:00 UTC"
       )
     end
 

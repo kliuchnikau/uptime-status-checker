@@ -8,6 +8,10 @@ class ServiceStatus
 
   attr_reader :service_name, :status, :time
 
+  def to_a
+    [service_name, status, time]
+  end
+
   def to_s
     "Service: #{service_name}, Status: #{status}, Check time: #{time}"
   end
