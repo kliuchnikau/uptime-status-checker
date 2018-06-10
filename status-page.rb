@@ -14,9 +14,17 @@ class StatusPageCLI < Thor
     puts StatusSource::Cloudflare.new().current_status
   end
 
-  desc "live", "Constantly query the URLs and output the status \
-                periodically on the console and save it to the data store."
+  desc "live", "Constantly (every 10 seconds) query the URLs and output the status \
+                periodically on the console and save it to the data store.
+                Interrupt the process to stop (Ctrl+C)."
   def live
+    loop do
+      pull
+
+      # Sleeping for 10 seconds to avoid throttling from service providers
+      # If we make requests to often we might get blocked
+      sleep 10
+    end
   end
 
   desc "history", "Display all the data which was gathered by the tool."
