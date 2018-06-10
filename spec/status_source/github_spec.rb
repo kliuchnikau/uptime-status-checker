@@ -1,5 +1,3 @@
-require 'timecop'
-
 describe StatusSource::Github do
 
   FakeResponse = Struct.new(:code, :body)

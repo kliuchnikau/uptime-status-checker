@@ -99,4 +99,5 @@ RSpec.configure do |config|
 =end
 end
 
+require 'timecop'
 require_relative "../lib/lib"
